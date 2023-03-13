@@ -36,7 +36,6 @@ export const MentalMain = () => {
     const [gamePaused, setGamePaused] = useState(false)
     const {currentRepetition, level, question, correctAnswersInLevel} = state
 
-    console.log(state)
     const randomIntegerInRange = (min: number, max: number): number => {
         // Generate a random decimal between 0 and 1
         const randomDecimal = Math.random();
@@ -52,8 +51,8 @@ export const MentalMain = () => {
     }
 
     const levelUpIfNeeded = () => {
+        console.log("levelUpIfNeeded")
         const currentLevel = levels[state.level];
-        console.log(correctAnswersInLevel)
         if (currentRepetition >= currentLevel.repetitions && correctAnswersInLevel >= currentLevel.minimumCorrectAnswersForLevelUp) {
             if (state.level < levels.length - 1) { // only level up if there are more levels
                 state.level = state.level + 1;
@@ -66,6 +65,7 @@ export const MentalMain = () => {
         state.currentRepetition = currentRepetition + 1;
     }
     const newQuestion = () => {
+        console.log("newQuestion")
         levelUpIfNeeded();
 
         const {min, max, operators, answerMax, answerMin} = levels[level];
@@ -83,34 +83,41 @@ export const MentalMain = () => {
         }
 
         state.question = q;
-        console.log("REPETITIONS: ", state.currentRepetition)
+        console.log("newQuestion: ",q)
         setState({...state})
     }
 
-    const timeOut = (secondsLeft: number) => {
-        if (isTimerCancelled) {
-            setIsTimerCancelled(false)
-        }
+    const timerRewind = (secondsLeft: number) => {
+        console.log("timerRewind")
+
         if (isCorrectAnswer) {
             scoreUp(secondsLeft)
+            setIsCorrectAnswer(false)
         } else {
             scoreDown(Math.round(levels[level].answeringTime / 3))
         }
-        newQuestion()
+        if (isTimerCancelled) {
+            setIsTimerCancelled(false)
+        } else {
+            newQuestion()
+        }
     }
 
     const scoreUp = (value: number) => {
+        console.log("scoreUp")
         setScore(score + value)
         setScoreDirection(ScoreDirection.UP)
         setIsCorrectAnswer(false);
     }
     const scoreDown = (value: number) => {
+        console.log("scoreDown")
         setScore(Math.max(0, score - value));
         setScoreDirection(ScoreDirection.DOWN)
     }
 
 
     function checkAnswer(candidate: number) {
+        console.log("checkAnswer")
         // eslint-disable-next-line no-eval
         if (candidate && candidate === eval(question)) {
             state.correctAnswersInLevel = correctAnswersInLevel + 1;
@@ -147,7 +154,7 @@ export const MentalMain = () => {
         <div>
             <Button variant={"danger"} onClick={() => setGamePaused(true)}>Paus</Button>
             {content}
-            <Timer seconds={levels[level].answeringTime} isCancelled={isTimerCancelled} rewind={timeOut}/>
+            <Timer seconds={levels[level].answeringTime} isCancelled={isTimerCancelled} rewind={timerRewind}/>
             <MentalDisplay question={question} answerReporter={checkAnswer}/>
         </div>)
 

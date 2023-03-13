@@ -44,7 +44,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
             max: 9,
             answerMax: 9,
             operators: ['+'],
-            answeringTime: 15,
+            answeringTime: 5,
             repetitions: 2,
             minimumCorrectAnswersForLevelUp: 2
         },
