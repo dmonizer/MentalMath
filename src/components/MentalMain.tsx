@@ -16,6 +16,7 @@ interface MentalState {
 
 
 export const MentalMain = () => {
+    console.log("Rendering...")
     const emptyState = (): MentalState => {
         return {
             currentRepetition: 0,
@@ -33,6 +34,7 @@ export const MentalMain = () => {
     const [gameStarted,setGameStarted] = useState(false)
     const {currentRepetition, level, question, correctAnswersInLevel} = state
 
+    console.log(state)
     const randomIntegerInRange = (min: number, max: number): number => {
         // Generate a random decimal between 0 and 1
         const randomDecimal = Math.random();
@@ -49,11 +51,13 @@ export const MentalMain = () => {
 
     const levelUpIfNeeded = () => {
         const currentLevel = levels[state.level];
+        console.log(correctAnswersInLevel)
         if (currentRepetition >= currentLevel.repetitions && correctAnswersInLevel >= currentLevel.minimumCorrectAnswersForLevelUp) {
             if (state.level < levels.length - 1) { // only level up if there are more levels
                 state.level = state.level + 1;
             }
             state.currentRepetition = 0
+            state.correctAnswersInLevel = 0;
             state.question = "";
             console.log("################################ LEVEL UP: ", state.level, "################################")
         }
@@ -77,6 +81,7 @@ export const MentalMain = () => {
         }
 
         state.question = q;
+        console.log("REPETITIONS: ", state.currentRepetition)
         setState({...state})
     }
 
