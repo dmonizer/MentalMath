@@ -6,6 +6,7 @@ import levels from "../MentalLevelData";
 import {Timer} from "./Timer";
 import {Score, ScoreDirection} from "./Score";
 import {Ready} from "./Ready";
+import Button from "react-bootstrap/Button";
 
 interface MentalState {
     level: number,
@@ -31,7 +32,8 @@ export const MentalMain = () => {
     const [isTimerCancelled, setIsTimerCancelled] = useState(false);
     const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
 
-    const [gameStarted,setGameStarted] = useState(false)
+    const [gameStarted, setGameStarted] = useState(false)
+    const [gamePaused, setGamePaused] = useState(false)
     const {currentRepetition, level, question, correctAnswersInLevel} = state
 
     console.log(state)
@@ -123,17 +125,31 @@ export const MentalMain = () => {
         newQuestion()
     }
 
+    if (!gameStarted) {
+        return <Ready startCb={() => setGameStarted(true)}/>
+    }
+
+    let content =
+        <div className={"scoring-level"}>
+            <Score value={score} direction={scoreDirection}/>
+            <Level level={state.level} totalLevels={levels.length - 1}/>
+        </div>
+
+
+    if (gamePaused) {
+        return <div>
+            <Button variant={"danger"} onClick={() => setGamePaused(false)}>Jätka</Button>
+            {content}
+        </div>
+    }
+
     return (
-        gameStarted ?
         <div>
-            <div className={"scoring-level"}>
-                <Score value={score} direction={scoreDirection}/>
-                <Level level={state.level} totalLevels={levels.length-1}/>
-            </div>
+            <Button variant={"danger"} onClick={() => setGamePaused(true)}>Paus</Button>
+            {content}
             <Timer seconds={levels[level].answeringTime} isCancelled={isTimerCancelled} rewind={timeOut}/>
             <MentalDisplay question={question} answerReporter={checkAnswer}/>
-        </div>
-            : <Ready startCb={()=>setGameStarted(true)}/>
-    )
+        </div>)
+
 
 }
