@@ -24,8 +24,6 @@ export enum KeypadKeys
     ENTER = 'ENTER',
 }
 
-const KEY_SIZE = null;
-
 export const Keypad: React.FC<IKeypadProps> = (props): JSX.Element => {
     const rows:string[][] = [
         [...Object.keys(KeypadKeys).slice(0, 3)],
