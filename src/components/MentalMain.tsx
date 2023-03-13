@@ -7,6 +7,7 @@ import {Timer} from "./Timer";
 import {Score, ScoreDirection} from "./Score";
 import {Ready} from "./Ready";
 import Button from "react-bootstrap/Button";
+import {WrongAnswers} from "./WrongAnswers";
 
 interface MentalState {
     level: number,
@@ -16,8 +17,10 @@ interface MentalState {
 }
 
 
+
+
 export const MentalMain = () => {
-    console.log("Rendering...")
+    const MAX_WRONG_ANSWERS = 10;
     const emptyState = (): MentalState => {
         return {
             currentRepetition: 0,
@@ -31,6 +34,7 @@ export const MentalMain = () => {
     const [scoreDirection, setScoreDirection] = useState(ScoreDirection.STEADY);
     const [isTimerCancelled, setIsTimerCancelled] = useState(false);
     const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
+    const [wrongAnswersLeft, setWrongAnswersLeft] = useState(MAX_WRONG_ANSWERS);
 
     const [gameStarted, setGameStarted] = useState(false)
     const [gamePaused, setGamePaused] = useState(false)
@@ -50,6 +54,11 @@ export const MentalMain = () => {
         return randomInteger + min;
     }
 
+    function resetGame() {
+        setState(emptyState);
+        setWrongAnswersLeft(MAX_WRONG_ANSWERS);
+        setScore(0);
+    }
     const levelUpIfNeeded = () => {
         console.log("levelUpIfNeeded")
         const currentLevel = levels[state.level];
@@ -57,6 +66,7 @@ export const MentalMain = () => {
             if (state.level < levels.length - 1) { // only level up if there are more levels
                 state.level = state.level + 1;
             }
+            setWrongAnswersLeft(Math.min(MAX_WRONG_ANSWERS,wrongAnswersLeft+1));
             state.currentRepetition = 0
             state.correctAnswersInLevel = 0;
             state.question = "";
@@ -111,6 +121,7 @@ export const MentalMain = () => {
     }
     const scoreDown = (value: number) => {
         console.log("scoreDown")
+        setWrongAnswersLeft(wrongAnswersLeft-1)
         setScore(Math.max(0, score - value));
         setScoreDirection(ScoreDirection.DOWN)
     }
@@ -136,24 +147,29 @@ export const MentalMain = () => {
         return <Ready startCb={() => setGameStarted(true)}/>
     }
 
-    let content =
+    let statsContent =
         <div className={"scoring-level"}>
             <Score value={score} direction={scoreDirection}/>
             <Level level={state.level} totalLevels={levels.length - 1}/>
+            <WrongAnswers answersLeft={wrongAnswersLeft} max={MAX_WRONG_ANSWERS}/>
         </div>
 
 
+
+    if (wrongAnswersLeft === 0) {
+        return <div>{statsContent}<p>Mäng läbi, valed vastused (⚫) said otsa!</p><Button variant={"primary"} onClick={()=>resetGame()}>Uuesti?</Button></div>
+    }
     if (gamePaused) {
         return <div>
             <Button variant={"danger"} onClick={() => setGamePaused(false)}>Jätka</Button>
-            {content}
+            {statsContent}
         </div>
     }
 
     return (
         <div>
             <Button variant={"danger"} onClick={() => setGamePaused(true)}>Paus</Button>
-            {content}
+            {statsContent}
             <Timer seconds={levels[level].answeringTime} isCancelled={isTimerCancelled} rewind={timerRewind}/>
             <MentalDisplay question={question} answerReporter={checkAnswer}/>
         </div>)
