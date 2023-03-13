@@ -15,7 +15,9 @@ export const Timer = (props: { seconds: number, isCancelled: boolean, rewind: (s
         return () => clearInterval(interval);
     }, [seconds, isCancelled, timerValue, rewind]);
 
-    const progressBar = "".padStart(timerValue, "⚫").padEnd(seconds, "⚪")
+
+    //const progressBar = "".padStart(10/seconds*timerValue, "⚫").padEnd(10, "⚪")
+    const progressBar = "".padStart(10/seconds*timerValue, "▆").padEnd(10, "▁")
     let color = "red"
     if (timerValue > seconds / 3) {
         color = "yellow"

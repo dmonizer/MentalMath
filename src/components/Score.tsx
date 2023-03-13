@@ -13,5 +13,5 @@ export const Score = (props: { value: number, direction:ScoreDirection }) => {
         case ScoreDirection.DOWN:
             color = "red"; break
     }
-    return <div className={"score-display " + color}>Punkte: {props.value}</div>;
+    return <div className={"score-display " + color} title={"Teenitud punktid"}>P: {props.value}</div>;
 }

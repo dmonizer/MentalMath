@@ -5,6 +5,7 @@ import {Level} from "./LevelDisplay";
 import levels from "../MentalLevelData";
 import {Timer} from "./Timer";
 import {Score, ScoreDirection} from "./Score";
+import {Ready} from "./Ready";
 
 interface MentalState {
     level: number,
@@ -27,6 +28,7 @@ export const MentalMain = () => {
     const [score, setScore] = useState(0);
     const [scoreDirection, setScoreDirection] = useState(ScoreDirection.STEADY);
     const [isTimerCancelled, setIsTimerCancelled] = useState(false);
+    const [gameStarted,setGameStarted] = useState(false)
     const {currentRepetition, level, question, correctAnswersInLevel} = state
 
     const randomIntegerInRange = (min: number, max: number): number => {
@@ -110,12 +112,16 @@ export const MentalMain = () => {
     }
 
     return (
+        gameStarted ?
         <div>
-            <Level level={state.level}/>
-            <Score value={score} direction={scoreDirection}/>
+            <div className={"scoring-level"}>
+                <Score value={score} direction={scoreDirection}/>
+                <Level level={state.level}/>
+            </div>
             <Timer seconds={levels[level].answeringTime} isCancelled={isTimerCancelled} rewind={timeOut}/>
             <MentalDisplay question={question} answerReporter={checkAnswer}/>
         </div>
+            : <Ready startCb={()=>setGameStarted(true)}/>
     )
 
 }

@@ -40,6 +40,9 @@ code {
   padding: 8px;
 }
 
+h1{
+  text-align: center;
+}
 .red {
   color: red;
 }
@@ -62,9 +65,22 @@ code {
 .level-display {
   font-size: 26px;
   text-align: right;
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .score-display {
   font-size: 26px;
   text-align: right;
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.scoring-level {
+  text-align: end;
+}
+.ready-container {
+  text-align: center;
 }
