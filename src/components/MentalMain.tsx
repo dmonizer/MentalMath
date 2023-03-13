@@ -116,7 +116,7 @@ export const MentalMain = () => {
         <div>
             <div className={"scoring-level"}>
                 <Score value={score} direction={scoreDirection}/>
-                <Level level={state.level}/>
+                <Level level={state.level} totalLevels={levels.length-1}/>
             </div>
             <Timer seconds={levels[level].answeringTime} isCancelled={isTimerCancelled} rewind={timeOut}/>
             <MentalDisplay question={question} answerReporter={checkAnswer}/>
