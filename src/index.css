@@ -54,14 +54,22 @@ h1{
   color: orange;
 }
 
+.red_bg {
+  background-color: red;
+}
+.green_bg {
+  background-color: limegreen;
+}
+
+.yellow_bg {
+  background-color: orange;
+}
+
 .question-field {
   font-size: 46px;
   text-align: center;
 }
-.timer-display {
-  font-size: 26px;
-  text-align: center;
-}
+
 .level-display {
   font-size: 26px;
   text-align: right;
@@ -83,4 +91,11 @@ h1{
 }
 .ready-container {
   text-align: center;
+}
+.timer-display {
+  font-size: 26px;
+  text-align: center;
+}
+.progressBar {
+
 }

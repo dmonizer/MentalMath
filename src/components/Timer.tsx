@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-
+const PROGRESS_BAR_WIDTH = 650;
 export const Timer = (props: { seconds: number, isCancelled: boolean, rewind: (seconds: number) => void }) => {
     const [timerValue, setTimerValue] = useState(props.seconds);
     const {isCancelled, seconds, rewind} = props;
@@ -17,13 +17,15 @@ export const Timer = (props: { seconds: number, isCancelled: boolean, rewind: (s
 
 
     //const progressBar = "".padStart(10/seconds*timerValue, "⚫").padEnd(10, "⚪")
-    const progressBar = "".padStart(10/seconds*timerValue, "▆").padEnd(10, "▁")
-    let color = "red"
+    //const progressBar = "".padStart(10/seconds*timerValue, "▆").padEnd(10, "▁")
+    const progressBarWidth = PROGRESS_BAR_WIDTH/seconds*timerValue;
+    const styleElement = {width:progressBarWidth+"px", height:"20px"}
+    let color = "red_bg"
     if (timerValue > seconds / 3) {
-        color = "yellow"
+        color = "yellow_bg"
     }
     if (timerValue > seconds / 3 * 2) {
-        color = "green"
+        color = "green_bg"
     }
-    return (<div className={"timer-display "+color}>{progressBar}</div>);
+    return (<div className={"timer-display "} style={{width:PROGRESS_BAR_WIDTH+"px"}}><div className={"progressBar "+color} style={styleElement}></div></div>);
 }
