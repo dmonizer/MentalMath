@@ -28,6 +28,8 @@ export const MentalMain = () => {
     const [score, setScore] = useState(0);
     const [scoreDirection, setScoreDirection] = useState(ScoreDirection.STEADY);
     const [isTimerCancelled, setIsTimerCancelled] = useState(false);
+    const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
+
     const [gameStarted,setGameStarted] = useState(false)
     const {currentRepetition, level, question, correctAnswersInLevel} = state
 
@@ -81,6 +83,8 @@ export const MentalMain = () => {
     const timeOut = (secondsLeft: number) => {
         if (isTimerCancelled) {
             setIsTimerCancelled(false)
+        }
+        if (isCorrectAnswer) {
             scoreUp(secondsLeft)
         } else {
             scoreDown(Math.round(levels[level].answeringTime / 3))
@@ -91,6 +95,7 @@ export const MentalMain = () => {
     const scoreUp = (value: number) => {
         setScore(score + value)
         setScoreDirection(ScoreDirection.UP)
+        setIsCorrectAnswer(false);
     }
     const scoreDown = (value: number) => {
         setScore(Math.max(0, score - value));
@@ -101,9 +106,11 @@ export const MentalMain = () => {
     function checkAnswer(candidate: number) {
         // eslint-disable-next-line no-eval
         if (candidate && candidate === eval(question)) {
-            setIsTimerCancelled(true)
             state.correctAnswersInLevel = correctAnswersInLevel + 1;
+            setIsCorrectAnswer(true);
         }
+        setIsTimerCancelled(true)
+
         newQuestion();
     }
 
