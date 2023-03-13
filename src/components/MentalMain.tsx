@@ -56,6 +56,7 @@ export const MentalMain = () => {
             state.currentRepetition = 0
             state.question = "";
             console.log("################################ LEVEL UP: ", state.level, "################################")
+            setState({...state})
         }
         state.currentRepetition = currentRepetition + 1;
     }
