@@ -27,8 +27,8 @@ code {
 }
 
 .keypad-key {
-  width: 40px; /* Default Width */
-  height: 40px; /* Default Height */
+  width: 100px; /* Default Width */
+  height: 70px; /* Default Height */
 
   align-items: center;
   border: 1px solid #888;
@@ -36,7 +36,7 @@ code {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin: 8px;
+  margin: 3px;
   padding: 8px;
 }
 

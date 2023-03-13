@@ -24,7 +24,7 @@ export enum KeypadKeys
     ENTER = 'ENTER',
 }
 
-const KEY_SIZE = 100;
+const KEY_SIZE = null;
 
 export const Keypad: React.FC<IKeypadProps> = (props): JSX.Element => {
     const rows:string[][] = [
@@ -46,7 +46,6 @@ export const Keypad: React.FC<IKeypadProps> = (props): JSX.Element => {
                                     <KeypadKey
                                         keypadKey={KeypadKeys[keyPadNumber]}
                                         key={keyPadNumber}
-                                        keySize={KEY_SIZE}
                                         onKeyPressed={(keyPressed: KeypadKeys) => props.onKeyPressed(keyPressed)}
                                     />
                                 )

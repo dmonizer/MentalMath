@@ -15,7 +15,7 @@ export interface IKeypadKeyProps
 export const KeypadKey: React.FC<IKeypadKeyProps> = (props : IKeypadKeyProps): JSX.Element => (
     <Button
         variant={props.keypadKey === KeypadKeys.ENTER ? "success" : props.keypadKey === KeypadKeys.DELETE ? "warning" : "outline-primary"}
-        //className="keypad-key"
+        className="keypad-key"
         data-role="button"
 
         onClick={() => props.onKeyPressed(props.keypadKey)}
