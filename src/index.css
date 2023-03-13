@@ -94,8 +94,11 @@ h1{
 }
 .timer-display {
   font-size: 26px;
-  text-align: center;
+  display: block;
+
 }
 .progressBar {
 
+  margin: 0 auto;
+  position: relative;
 }
