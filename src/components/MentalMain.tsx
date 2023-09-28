@@ -19,10 +19,12 @@ interface MentalState {
 
 export const MentalMain = () => {
     const MAX_WRONG_ANSWERS = 10;
+
+    const [startLevel, setStartLevel] = useState(0)
     const emptyState = (): MentalState => {
         return {
             currentRepetition: 0,
-            level: 0,
+            level: startLevel,
             question: '',
             correctAnswersInLevel: 0,
         }
@@ -31,13 +33,13 @@ export const MentalMain = () => {
     const [score, setScore] = useState(0);
     const [scoreDirection, setScoreDirection] = useState(ScoreDirection.STEADY);
     const [isTimerCancelled, setIsTimerCancelled] = useState(false);
+
     const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
     const [wrongAnswersLeft, setWrongAnswersLeft] = useState(MAX_WRONG_ANSWERS);
-
     const [gameStarted, setGameStarted] = useState(false)
     const [gamePaused, setGamePaused] = useState(false)
-    const {currentRepetition, level, question, correctAnswersInLevel} = state
 
+    const {currentRepetition, level, question, correctAnswersInLevel} = state
     const randomIntegerInRange = (min: number, max: number): number => {
         // Generate a random decimal between 0 and 1
         const randomDecimal = Math.random();
@@ -142,7 +144,13 @@ export const MentalMain = () => {
     }
 
     if (!gameStarted) {
-        return <Ready startCb={() => setGameStarted(true)}/>
+        return <Ready
+                startCb={() => setGameStarted(true)}
+                startLevel={(level:number) => {
+                    setStartLevel(level)
+                    setState(emptyState)
+                console.log(state)}}
+                />
     }
 
     let statsContent =
@@ -152,7 +160,7 @@ export const MentalMain = () => {
             <WrongAnswers answersLeft={wrongAnswersLeft} max={MAX_WRONG_ANSWERS}/>
         </div>
 
-
+    console.log("LEVEL:",state.level)
 
     if (wrongAnswersLeft === 0) {
         return <div>{statsContent}<p>Mäng läbi, valed vastused (⚫) said otsa!</p><Button variant={"primary"} onClick={()=>resetGame()}>Uuesti?</Button></div>

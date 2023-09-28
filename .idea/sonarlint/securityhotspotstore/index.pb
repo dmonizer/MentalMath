@@ -9,10 +9,6 @@ A
 src/setupTests.ts,3/9/39129446b425a1d640160c068e4194e96639eedf
 ?
 src/styles.less,f/3/f3a615460a0a846d25159687db12f9141bacaf47
-;
-src/App.tsx,8/3/835da56f32df714aaed6285a5b7fc3a7807851e4
-]
--.idea/sonarlint/securityhotspotstore/index.pb,8/8/88a9255124c95bdc913197c120a8d560edc59c8e
 L
 .idea/codeStyles/Project.xml,6/e/6ecd6000a7b6f4a2884412ff19f74193ed089648
 A
@@ -21,8 +17,6 @@ A
 ,.idea/inspectionProfiles/Project_Default.xml,4/9/496a238a6afa168dbaf6efd37bb459331589579c
 <
 package.json,7/0/7030d0b2f71b999ff89a343de08c414af32fc93a
-S
-#.idea/sonarlint/issuestore/index.pb,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0
 =
 src/index.tsx,5/a/5ab44fe33ca96299f51ad4778a73e425b92bf439
 R
