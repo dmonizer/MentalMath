@@ -17,8 +17,6 @@ interface MentalState {
 }
 
 
-
-
 export const MentalMain = () => {
     const MAX_WRONG_ANSWERS = 10;
     const emptyState = (): MentalState => {
