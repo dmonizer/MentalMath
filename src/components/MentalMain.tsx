@@ -20,14 +20,13 @@ interface MentalState {
 export const MentalMain = () => {
     const MAX_WRONG_ANSWERS = 10;
 
-    const [startLevel, setStartLevel] = useState(0)
     const emptyState = (): MentalState => {
         return {
             currentRepetition: 0,
-            level: startLevel,
+            level: 1,
             question: '',
             correctAnswersInLevel: 0,
-        }
+        };
     }
     const [state, setState] = useState<MentalState>(emptyState());
     const [score, setScore] = useState(0);
@@ -147,20 +146,17 @@ export const MentalMain = () => {
         return <Ready
                 startCb={() => setGameStarted(true)}
                 startLevel={(level:number) => {
-                    setStartLevel(level)
-                    setState(emptyState)
-                console.log(state)}}
+                    setState({...state, level})
+                }        }
                 />
     }
-
+console.log("level: ",level)
     let statsContent =
         <div className={"scoring-level"}>
             <Score value={score} direction={scoreDirection}/>
             <Level level={state.level} totalLevels={levels.length - 1}/>
             <WrongAnswers answersLeft={wrongAnswersLeft} max={MAX_WRONG_ANSWERS}/>
         </div>
-
-    console.log("LEVEL:",state.level)
 
     if (wrongAnswersLeft === 0) {
         return <div>{statsContent}<p>Mäng läbi, valed vastused (⚫) said otsa!</p><Button variant={"primary"} onClick={()=>resetGame()}>Uuesti?</Button></div>
