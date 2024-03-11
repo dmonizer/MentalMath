@@ -74,11 +74,9 @@ export const MentalMain = () => {
         state.currentRepetition = currentRepetition + 1;
     }
     const newQuestion = () => {
-        console.log("newQuestion")
         levelUpIfNeeded();
 
-        const {min, max, operators, answerMax, answerMin} = levels[level];
-
+        const {min, max, operators, answerMax, answerMin} = levels[level-1];
         const countOfOps = operators.length - 1;
         let q = ""
         let suitableAnswer = false;
