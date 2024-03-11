@@ -25,16 +25,16 @@ const getLevel = (levelNumber: number, min: number, max: number, answerMin: numb
     })
 
 
-let levels: MentalMathLevel[] = [
-    getLevel(1,1, 9, 1, 9, ['+'], 15, 15, 9, "Liitmine 9 piires"),
-    getLevel(2,1, 9, 1, 9, ['-'], 15, 15, 9, "Lahutamine 9 piires"),
-    getLevel(3,1, 9, 1, 9, ['-', '+'], 15, 15, 9, "Liitmine ja lahutamine 9 piires"),
-    getLevel(4,1, 10, 1, 20, ['+'], 15, 20, 9, "Liitmine 20 piires (liidetavad kuni 10)"),
-    getLevel(5,1, 10, 1, 20, ['-'], 15, 20, 9, "Lahutamine 20 piires (lahutaja ja lahutatav kuni 10)"),
-    getLevel(6,1, 10, 1, 20, ['+', '-'], 15, 20, 9, "Liitmine ja lahutamine 20 piires (liidetavad, lahutatavad kuni 10)"),
-    getLevel(7,1, 20, 1, 20, ['+'], 15, 25, 9, "Liitmine 20 piires (liidetavad kuni 20)"),
-    getLevel(8,1, 20, 1, 20, ['-'], 15, 25, 9, "Lahutamine 20 piires (lahutaja ja lahutatav kuni 20)"),
-    getLevel(9,1, 20, 1, 20, ['+', '-'], 15, 25, 9, "Liitmine ja lahutamine 20 piires (liidetavad, lahutatavad kuni 20)"),
+const levels: MentalMathLevel[] = [
+    getLevel(1, 1, 9, 1, 10, ['+'], 25, 60, 9, "Liitmine 10 piires"),
+    getLevel(2, 1, 9, 1, 10, ['-'], 25, 60, 9, "Lahutamine 10 piires"),
+    getLevel(3, 1, 9, 1, 10, ['-', '+'], 25, 60, 9, "Liitmine ja lahutamine 10 piires"),
+    getLevel(4, 1, 10, 1, 20, ['+'], 25, 60, 9, "Liitmine 20 piires (liidetavad kuni 10)"),
+    getLevel(5, 1, 10, 1, 20, ['-'], 25, 60, 9, "Lahutamine 20 piires (lahutaja ja lahutatav kuni 10)"),
+    getLevel(6, 1, 10, 1, 20, ['+', '-'], 25, 60, 9, "Liitmine ja lahutamine 20 piires (liidetavad, lahutatavad kuni 10)"),
+    getLevel(7, 1, 20, 1, 20, ['+'], 25, 45, 9, "Liitmine 20 piires (liidetavad kuni 20)"),
+    getLevel(8, 1, 20, 1, 20, ['-'], 25, 45, 9, "Lahutamine 20 piires (lahutaja ja lahutatav kuni 20)"),
+    getLevel(9, 1, 20, 1, 20, ['+', '-'], 25, 45, 9, "Liitmine ja lahutamine 20 piires (liidetavad, lahutatavad kuni 20)"),
 ]
 
 /*if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
