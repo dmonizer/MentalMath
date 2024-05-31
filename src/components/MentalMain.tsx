@@ -76,13 +76,13 @@ export const MentalMain = () => {
     const newQuestion = () => {
         levelUpIfNeeded();
 
-        const {min, max, operators, answerMax, answerMin} = levels[level-1];
+        const {minLeft, maxLeft, minRight, maxRight, operators, answerMax, answerMin, description} = levels[level-1];
         const countOfOps = operators.length - 1;
         let q = ""
         let suitableAnswer = false;
-
+        console.log("Level desc: "+description)
         while (!suitableAnswer) {
-            q = randomIntegerInRange(min, max) + operators[randomIntegerInRange(0, countOfOps)] + randomIntegerInRange(min, max)
+            q = randomIntegerInRange(minLeft, maxLeft) + operators[randomIntegerInRange(0, countOfOps)] + randomIntegerInRange(minRight, maxRight)
             // eslint-disable-next-line no-eval
             let a = eval(q);
             suitableAnswer = a >= answerMin && a <= answerMax;
@@ -90,6 +90,7 @@ export const MentalMain = () => {
         }
 
         state.question = q;
+
         console.log("newQuestion: ",q)
         setState({...state})
     }
@@ -136,7 +137,7 @@ export const MentalMain = () => {
         newQuestion();
     }
 
-    if (state.question === "") {
+    if (state.question === "" && gameStarted) {
         newQuestion()
     }
 
