@@ -7,10 +7,11 @@ import {QuestionField} from "./QuestionDisplay";
 interface MentalProperties {
     question: string,
     answerReporter: (arg0: number) => void
+    onIntermediateAnswerChange: (subExpression: string, answer: number | null) => void;
 }
 
 export const MentalDisplay = (props: MentalProperties) => {
-    const {question, answerReporter} = props;
+    const {question, answerReporter, onIntermediateAnswerChange} = props;
     const [keypadEntries, setKeypadEntries] = useState<string[]>([]);
 
     const getOutput = (keypadEntries: string[]): string => {
@@ -37,7 +38,7 @@ export const MentalDisplay = (props: MentalProperties) => {
     return (
         <div>
             <div>
-                <QuestionField question={question}> = {getOutput(keypadEntries)}</QuestionField>
+                <QuestionField question={question} onAnswerChange={onIntermediateAnswerChange}> = {getOutput(keypadEntries)}</QuestionField>
             </div>
             <Keypad
                 onKeyPressed={handleKeypadKeyPress}
