@@ -73,7 +73,11 @@ const Expression: FC<ExpressionProps> = ({ expression, answers, onAnswerChange, 
                   marginBottom: '0.25em'
                 }}
                 value={subAnswer ?? ""}
-                onChange={(e) => onSubAnswerChange(subExpression, e.target.valueAsNumber)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  const num = parseInt(value, 10);
+                  onSubAnswerChange(subExpression, isNaN(num) ? null : num);
+                }}
                 onFocus={() => onFocus(subExpression)}
                 data-sub-expression={subExpression}
               />}
