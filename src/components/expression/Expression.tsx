@@ -1,19 +1,31 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { parse, MathNode, isOperatorNode, isConstantNode, isSymbolNode, isParenthesisNode } from "mathjs";
 
 interface ExpressionProps {
   expression: string;
-  onAnswerChange: (answer: number | null) => void;
+  answers: Record<string, number | null>;
+  onAnswerChange: (subExpression: string, answer: number | null) => void;
+  onFocus: (subExpression: string) => void;
+  activeInput: string | null;
 }
 
-const Expression: FC<ExpressionProps> = ({ expression, onAnswerChange }) => {
-  const [answers, setAnswers] = useState<Record<string, number | null>>({});
+const Expression: FC<ExpressionProps> = ({ expression, answers, onAnswerChange, onFocus }) => {
 
   const node = parse(expression);
 
+  const isSubExpressionCorrect = (subExpression: string, answer: number | null): boolean => {
+    if (answer === null) {
+      return false;
+    }
+    try {
+      return parse(subExpression).evaluate() === answer;
+    } catch {
+      return false;
+    }
+  };
+
   const onSubAnswerChange = (subExpression: string, answer: number | null) => {
-    answers[subExpression] = answer;
-    setAnswers({ ...answers });
+    onAnswerChange(subExpression, answer);
     const isCorrect = isSubExpressionCorrect(subExpression, answer);
     console.log(`Sub-expression ${subExpression} is ${isCorrect ? 'correct' : 'incorrect'}`);
   };
@@ -45,7 +57,7 @@ const Expression: FC<ExpressionProps> = ({ expression, onAnswerChange }) => {
                 type="number"
                 className="intermediary-answer"
                 style={{
-                  width: '4em',
+                  width: '3em',
                   textAlign: 'center',
                   border: '1px solid #ccc',
                   borderRadius: '4px',
@@ -53,6 +65,7 @@ const Expression: FC<ExpressionProps> = ({ expression, onAnswerChange }) => {
                 }}
                 value={subAnswer ?? ""}
                 onChange={(e) => onSubAnswerChange(subExpression, e.target.valueAsNumber)}
+                onFocus={() => onFocus(subExpression)}
               />}
               <span style={{ display: 'inline-flex', alignItems: 'baseline' }}>
                 {node.args.map((arg, i) => (
@@ -68,18 +81,6 @@ const Expression: FC<ExpressionProps> = ({ expression, onAnswerChange }) => {
 
     return <span>{node.toString()}</span>;
   };
-
-  const isSubExpressionCorrect = (subExpression: string, answer: number | null): boolean => {
-    if (answer === null) {
-      return false;
-    }
-    try {
-      return parse(subExpression).evaluate() === answer;
-    } catch {
-      return false;
-    }
-  };
-
 
   return <div className="expression">{renderNode(node, true)}</div>;
 };
