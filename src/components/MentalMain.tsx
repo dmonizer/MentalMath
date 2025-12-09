@@ -61,12 +61,12 @@ export const MentalMain = () => {
   }
   const levelUpIfNeeded = () => {
     console.log("levelUpIfNeeded");
-    const currentLevel = levels[state.level];
+    const currentLevel = levels[state.level - 1];
     if (
       currentRepetition >= currentLevel.repetitions &&
       correctAnswersInLevel >= currentLevel.minimumCorrectAnswersForLevelUp
     ) {
-      if (state.level < levels.length - 1) {
+      if (state.level < levels.length) {
         state.level = state.level + 1;
       }
       setWrongAnswersLeft(Math.min(MAX_WRONG_ANSWERS, wrongAnswersLeft + 1));
@@ -97,9 +97,18 @@ export const MentalMain = () => {
       suitableAnswer = a >= answerMin && a <= answerMax;
     }
 
+    const node = parse(q);
+    const intermediateNodes: MathNode[] = [];
+    node.traverse((node: MathNode, path: string, parent: MathNode) => {
+      if (isOperatorNode(node) && parent !== null) {
+        intermediateNodes.push(node);
+      }
+    });
+
     state.question = q;
     state.intermediateAnswers = {};
-    state.activeInput = "final";
+    state.activeInput =
+      intermediateNodes.length > 0 ? intermediateNodes[0].toString() : "final";
 
     console.log("newQuestion: ", q);
     setState({ ...state });
@@ -112,7 +121,7 @@ export const MentalMain = () => {
       scoreUp(secondsLeft);
       setIsCorrectAnswer(false);
     } else {
-      scoreDown(Math.round(levels[level].answeringTime / 3));
+      scoreDown(Math.round(levels[level - 1].answeringTime / 3));
     }
     if (isTimerCancelled) {
       setIsTimerCancelled(false);
@@ -181,7 +190,7 @@ export const MentalMain = () => {
   let statsContent = (
     <div className={"scoring-level"}>
       <Score value={score} direction={scoreDirection} />
-      <Level level={state.level} totalLevels={levels.length - 1} />
+      <Level level={state.level} totalLevels={levels.length} />
       <WrongAnswers answersLeft={wrongAnswersLeft} max={MAX_WRONG_ANSWERS} />
     </div>
   );
@@ -215,7 +224,7 @@ export const MentalMain = () => {
       </Button>
       {statsContent}
       <Timer
-        seconds={levels[level].answeringTime}
+        seconds={levels[level - 1].answeringTime}
         isCancelled={isTimerCancelled}
         rewind={timerRewind}
       />

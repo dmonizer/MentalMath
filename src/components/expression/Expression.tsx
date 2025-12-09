@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { parse, MathNode, isOperatorNode, isConstantNode, isSymbolNode, isParenthesisNode } from "mathjs";
 
 interface ExpressionProps {
@@ -9,7 +9,15 @@ interface ExpressionProps {
   activeInput: string | null;
 }
 
-const Expression: FC<ExpressionProps> = ({ expression, answers, onAnswerChange, onFocus }) => {
+const Expression: FC<ExpressionProps> = ({ expression, answers, onAnswerChange, onFocus, activeInput }) => {
+
+  useEffect(() => {
+    if (activeInput && activeInput !== 'final') {
+      setTimeout(() => {
+        (document.querySelector(`[data-sub-expression="${activeInput}"]`) as HTMLInputElement)?.focus()
+      }, 0);
+    }
+  }, [activeInput]);
 
   const node = parse(expression);
 
@@ -54,7 +62,8 @@ const Expression: FC<ExpressionProps> = ({ expression, answers, onAnswerChange, 
         return (
             <span className="expression-node" style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', margin: '0 0.25em' }}>
               {!isRoot && <input
-                type="number"
+                type="text"
+                inputMode="numeric"
                 className="intermediary-answer"
                 style={{
                   width: '3em',
@@ -66,6 +75,7 @@ const Expression: FC<ExpressionProps> = ({ expression, answers, onAnswerChange, 
                 value={subAnswer ?? ""}
                 onChange={(e) => onSubAnswerChange(subExpression, e.target.valueAsNumber)}
                 onFocus={() => onFocus(subExpression)}
+                data-sub-expression={subExpression}
               />}
               <span style={{ display: 'inline-flex', alignItems: 'baseline' }}>
                 {node.args.map((arg, i) => (
