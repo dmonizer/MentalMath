@@ -74,7 +74,7 @@ const Expression: FC<ExpressionProps> = ({ expression, answers, onAnswerChange, 
                 }}
                 value={subAnswer ?? ""}
                 onChange={(e) => {
-                  const value = e.target.value;
+                  const value = e.target.value.trim();
                   const num = parseInt(value, 10);
                   onSubAnswerChange(subExpression, isNaN(num) ? null : num);
                 }}

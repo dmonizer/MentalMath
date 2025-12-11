@@ -45,7 +45,8 @@ export const MentalDisplay = (props: MentalProperties) => {
             } else {
                 currentAnswer += keyPadKey.toString()
             }
-            onIntermediateAnswerChange(activeInput, parseInt(currentAnswer, 10))
+            const num = parseInt(currentAnswer, 10);
+            onIntermediateAnswerChange(activeInput, isNaN(num) ? null : num);
         }
     }
     return (
