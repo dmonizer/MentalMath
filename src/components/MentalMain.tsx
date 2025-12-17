@@ -17,6 +17,7 @@ interface MentalState {
   correctAnswersInLevel: number;
   intermediateAnswers: Record<string, number | null>;
   activeInput: string | null;
+  finalAnswer: string;
 }
 
 export const MentalMain = () => {
@@ -30,6 +31,7 @@ export const MentalMain = () => {
       correctAnswersInLevel: 0,
       intermediateAnswers: {},
       activeInput: "final",
+      finalAnswer: "",
     };
   };
   const [state, setState] = useState<MentalState>(emptyState());
@@ -49,6 +51,7 @@ export const MentalMain = () => {
     correctAnswersInLevel,
     intermediateAnswers,
     activeInput,
+    finalAnswer,
   } = state;
   const randomIntegerInRange = (min: number, max: number): number => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -245,6 +248,10 @@ export const MentalMain = () => {
         }}
         activeInput={activeInput}
         intermediateAnswers={intermediateAnswers}
+        finalAnswer={finalAnswer}
+        onFinalAnswerChange={(answer) => {
+            setState({ ...state, finalAnswer: answer });
+        }}
       />
     </div>
   );

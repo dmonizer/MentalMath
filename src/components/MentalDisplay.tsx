@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {useState} from 'react';
 
 import {Keypad, KeypadKeys} from './Keypad';
 import {QuestionField} from "./QuestionDisplay";
@@ -11,33 +10,30 @@ interface MentalProperties {
     onFocus: (subExpression: string) => void;
     activeInput: string | null;
     intermediateAnswers: Record<string, number | null>;
+    finalAnswer: string | null;
+    onFinalAnswerChange: (answer: string) => void;
 }
 
 export const MentalDisplay = (props: MentalProperties) => {
-    const {question, answerReporter, onIntermediateAnswerChange, onFocus, activeInput, intermediateAnswers} = props;
-    const [keypadEntries, setKeypadEntries] = useState<string[]>([]);
-
-    const getOutput = (keypadEntries: string[]): string => {
-        return keypadEntries.join(""); //isNaN(number) ? 0 : number;
-    }
+    const {question, answerReporter, onIntermediateAnswerChange, onFocus, activeInput, intermediateAnswers, finalAnswer, onFinalAnswerChange} = props;
 
     const handleKeypadKeyPress = (keyPadKey: KeypadKeys): void => {
         if (activeInput === 'final') {
             if (keyPadKey === KeypadKeys.ENTER) {
-                const candidate: number = parseFloat(keypadEntries.join(""));
+                const candidate: number = parseFloat(finalAnswer || "");
                 answerReporter(candidate);
-                setKeypadEntries([])
                 return;
             }
+
+            let currentAnswer = finalAnswer || "";
 
             if (keyPadKey === KeypadKeys.DELETE) {
-                keypadEntries.pop();
-                setKeypadEntries([...keypadEntries]);
-                return;
+                currentAnswer = currentAnswer.slice(0, -1);
+            } else {
+                currentAnswer += keyPadKey.toString();
             }
+            onFinalAnswerChange(currentAnswer);
 
-            keypadEntries.push(keyPadKey.toString());
-            setKeypadEntries([...keypadEntries]);
         } else if (activeInput) {
             let currentAnswer = intermediateAnswers[activeInput]?.toString() ?? ""
             if (keyPadKey === KeypadKeys.DELETE) {
@@ -60,9 +56,9 @@ export const MentalDisplay = (props: MentalProperties) => {
                     answers={intermediateAnswers}
                 > = <input
                     type="text"
-                    value={getOutput(keypadEntries)}
+                    value={finalAnswer || ""}
+                    onChange={(e) => onFinalAnswerChange(e.target.value)}
                     onFocus={() => onFocus("final")}
-                    readOnly
                     />
                 </QuestionField>
             </div>
